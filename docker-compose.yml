@@ -10,7 +10,6 @@ services:
       - php1
     volumes:
       - /php_nginx_1:/var/www/html
-    restart: always
 
   nginx2:
     build: ./nginx2
@@ -20,33 +19,27 @@ services:
       - php2
     volumes:
       - /php_nginx_2:/var/www/html
-    restart: always
 
   php1:
     build: ./php1
     depends_on:
-       - db
+      - mysql 
     volumes:
       - /php_nginx_1:/var/www/html
-    restart: always
 
   php2:
     build: ./php2
-     depends_on:
-      - db
+    depends_on:
+      - mysql 
     volumes:
       - /php_nginx_2:/var/www/html
-
-    restart: always
-
  
-  db:
+  mysql:
    image: mysql:latest
    environment:
-     MYSQL_ROOT_PASSWORD: root_password
-     MYSQL_DATABASE: laravel_db
-     MYSQL_USER: laravel_user
-     MYSQL_PASSWORD: laravel_password
-   command: --socket=/var/run/mysqld/mysqld.sock
-   restart: always
-
+      MYSQL_ROOT_PASSWORD: your_mysql_root_password
+      MYSQL_DATABASE: your_database_name
+      MYSQL_USER: your_database_username
+      MYSQL_PASSWORD: your_database_password
+   ports:
+      - 3306:3306

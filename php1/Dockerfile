@@ -18,21 +18,29 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN curl -sL https://deb.nodesource.com/setup_18.x | bash - \
     && apt-get install -y nodejs
 
-RUN npm install
+#RUN npm install
 
 # Installation des dépendances Composer
-RUN composer install
+#RUN composer install
 
 # Installation des dépendances NPM
-RUN npm install
+#RUN npm install
 
 # Ajouter une commande pour ajuster les permissions sur le socket MySQL
-RUN chmod 777 /var/run/mysqld/mysqld.sock
+#RUN chmod 777 /var/run/mysqld/mysqld.sock
 
 # Exécution des commandes Laravel
-RUN php artisan key:generate
-RUN php artisan migrate:fresh --seed
+#RUN php artisan key:generate --env=production
+#RUN php artisan migrate:fresh --seed
 
 
 # Exemple de commande npm Laravel
-RUN npm run build
+#RUN npm run build
+
+
+CMD composer install \
+    && npm install \
+    && npm run build \
+    && npm run dev \
+    && php artisan key:generate \
+    && php artisan migrate:fresh --seed
